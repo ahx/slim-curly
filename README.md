@@ -10,8 +10,7 @@ The plan: Use Slim just like before, but make it handle `{{curly texts}}` and `{
 
 First `require 'slim/curly'` somewhere from code.
 
-Now if you were using `ember-rails`, you can write your templates using Slim. Just append `.slim` to your template names (like `my_template
-.handlebars.slim`) and you are all set.
+Now if you were using `ember-rails`, you can write your templates using Slim. Just append `.slim` to your template names (like `my_template.handlebars.slim`) and you are all set.
 
 Input:
 
