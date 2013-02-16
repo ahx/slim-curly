@@ -1,15 +1,14 @@
 # encoding: utf-8
 
 require 'minitest/unit'
+require 'minitest/autorun'
+
 require 'slim'
 require 'slim/curly'
 require 'slim/grammar'
 
-MiniTest::Unit.autorun
-
-# TODO Make these validate or add a custom Slim::Curly::Grammar
-# Slim::Engine.after  Slim::Curly::Parser, Temple::Filters::Validator, :grammar => Slim::Grammar
-# Slim::Engine.before :Pretty, Temple::Filters::Validator
+Slim::Engine.after  Slim::Curly::Parser, Temple::Filters::Validator, :grammar => Slim::Grammar
+Slim::Engine.before :Pretty, Temple::Filters::Validator
 
 class TestSlim < MiniTest::Unit::TestCase
   def setup

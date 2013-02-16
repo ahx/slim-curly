@@ -8,9 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Slim::Curly::VERSION
   gem.authors       = ["Andreas Haller"]
   gem.email         = ["andreashaller@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = "Generate Handlebars/Mustache/curly templates using Slim."
+  gem.homepage      = "https://github.com/ahx/slim-curly"
   gem.license       = "MIT"
 
   gem.files         = `git ls-files`.split($/)
@@ -18,6 +17,6 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_runtime_dependency("slim", ["~> 2.0.0.pre.5"])
+  gem.add_runtime_dependency("slim", ["~> 2.0.0.pre.6"])
   gem.add_development_dependency "rake"
 end
