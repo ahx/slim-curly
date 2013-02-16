@@ -30,14 +30,14 @@ body
 
 Output:
 
-```html
+```handlebars
 <body>
   <h1>
     Juhu {{ name }}!
   </h1>
   <a {{action "say" "3"}} >Say three!</a>
   <div id="container" class="{{ theme }}">
-    {{#each}}
+    {{#each paragraph }}
       <p>
         dynamic text with
         newline coming from Ruby
