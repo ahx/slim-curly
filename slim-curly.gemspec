@@ -9,6 +9,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Andreas Haller"]
   gem.email         = ["andreashaller@gmail.com"]
   gem.description   = "Generate Handlebars/Mustache/curly templates using Slim."
+  gem.summary       = gem.description
   gem.homepage      = "https://github.com/ahx/slim-curly"
   gem.license       = "MIT"
 
