@@ -1,8 +1,8 @@
 require File.expand_path('../helper', __FILE__)
 
-class TestSlimCurlyTextNode < TestSlim
+class TestSlimCurlyText < TestSlim
 
-  def test_curly_text_nodes
+  def test_curly_text
     source = %q{
 p
  {{hello}} {{bello}}
@@ -11,7 +11,7 @@ p
     assert_html '<p>{{hello}} {{bello}}</p>', source
   end
 
-  def test_curly_text_nodes_inline
+  def test_curly_text_inline
     source = %q{
 p {{hello}} {{bello}}
 }
@@ -19,16 +19,15 @@ p {{hello}} {{bello}}
     assert_html '<p>{{hello}} {{bello}}</p>', source
   end
 
-  def test_curly_text_nodes_inline_with_text_between
+  def test_curly_text_inline_with_class
     source = %q{
-p {{hello}} = {{bello}}
-p {{hello}} - {{bello}}
+p.peng {{hello}} {{bello}}
 }
 
-    assert_html '<p>{{hello}} = {{bello}}</p><p>{{hello}} - {{bello}}</p>', source
+    assert_html '<p class="peng">{{hello}} {{bello}}</p>', source
   end
 
-  def test_curly_text_node_in_context
+  def test_curly_text_in_context
     source = %q{
 h1 Greeting
 p
@@ -39,7 +38,7 @@ p
     assert_html '<h1>Greeting</h1><p>{{hello}}<b>World</b></p>', source
   end
 
-  def test_interpolation_in_text
+  def test_curly_text_with_interpolation
     source = %q{
 p
  {{say "#{hello_world}"}}
@@ -48,7 +47,7 @@ p
     assert_html '<p>{{say "Hello World from @env"}}</p>', source
   end
 
-    def test_nested_interpolation_in_text
+    def test_curly_text_with_nested_interpolation
     source = %q{
 p
  {{say "#{hello_world}" #{1+2}}}

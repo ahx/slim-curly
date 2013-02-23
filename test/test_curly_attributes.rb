@@ -1,6 +1,6 @@
 require File.expand_path('../helper', __FILE__)
 
-class TestSlimCurlyAttribute < TestSlim
+class TestSlimCurlyAttributes < TestSlim
   def test_curly_attribute
     source = %q{
 p({{action some}}) = hello_world
