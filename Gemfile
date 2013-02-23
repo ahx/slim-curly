@@ -5,7 +5,7 @@ gemspec
 
 gem 'slim', :path => '~/src/slim'
 
-group :tools do
+group :development do
   gem 'guard-minitest'
   gem 'rb-inotify', :require => false
   gem 'rb-fsevent', :require => false

@@ -17,7 +17,7 @@ Input:
 ```slim
 body
   h1 Juhu {{ name }}!
-  a({{action "say" "#{2+1}"}}) Say three!
+  a({{action "say" "#{2+1}"}} rel="none" ) Say three!
   #container class="{{ theme }}"
     {{#each paragraph }}
       p= "dynamic text with\nnewline coming from Ruby"
@@ -34,7 +34,7 @@ Output:
   <h1>
     Juhu {{ name }}!
   </h1>
-  <a {{action "say" "3"}} >Say three!</a>
+  <a rel="none" {{action "say" "3"}}>Say three!</a>
   <div id="container" class="{{ theme }}">
     {{#each paragraph }}
       <p>
@@ -52,7 +52,6 @@ Output:
   </div>
 </body>]
 ```
-
 
 ## Installation
 
