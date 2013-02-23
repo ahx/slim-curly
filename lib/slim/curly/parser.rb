@@ -72,8 +72,8 @@ module Slim::Curly
           break unless delimiter
           @line = $'
           # Prepend a space before the attribute.
-          attribute = ' ' + parse_curly_value($1)
-          curly_attributes << [:slim, :interpolate, attribute]
+          curly_attributes << [:static, ' ']
+          curly_attributes << parse_curly_value($1)
           #### END Code differrent from Slim::Parser
         else
           break unless delimiter
@@ -108,21 +108,34 @@ module Slim::Curly
 
     private
 
-    # Parses text wrapped in curly ("{{....}}") and forwards the @line pointer right after the closing delimiter }}
+    # Parses text wrapped in curly ("{{....}}") and forwards right after the closing delimiter }}
     def parse_curly_value(ocurly)
-      value = ocurly
-      if @line =~ /#\{/
-        # Interpolation found
-        if @line =~ /\A.*?}/
-          value << $&
+      value = [:multi, [:static, ocurly]]
+
+      # Passing interpolation to [:slim, :interpolate, string]
+      # FIXME Can Slim handle this?
+      interpolate = nil
+      unclosed = 0 # Number of unclosed interpolations
+      while @line =~ /\A.*?\#{/
+        # Ruby interpolation found
+        unclosed += 1
+        interpolate ||= ''
+        interpolate << $&
+        @line = $'
+        if unclosed > 0 && @line =~ /\A([^\#{]*?}){#{unclosed}}/
+          # Found delimiter(s) to close the interpolation
+          unclosed -= 1
+          interpolate << $&
           @line = $'
         end
       end
-      if @line =~ /(#{CCURLY})/
-        value << $`
-        value << $1
+      value << [:slim, :interpolate, interpolate] if interpolate
+
+      if @line =~ /\A.*?#{CCURLY}/
+        value << [:static, $&]
         @line = $'
       end
+      # TODO Syntax error if no CCURLY was found
       value
     end
 

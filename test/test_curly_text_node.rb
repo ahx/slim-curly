@@ -48,4 +48,13 @@ p
     assert_html '<p>{{say "Hello World from @env"}}</p>', source
   end
 
+    def test_nested_interpolation_in_text
+    source = %q{
+p
+ {{say "#{hello_world}" #{1+2}}}
+}
+
+    assert_html '<p>{{say "Hello World from @env" 3}}</p>', source
+  end
+
 end

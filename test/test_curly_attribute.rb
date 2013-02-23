@@ -50,6 +50,14 @@ p({{view #{41+1}}}) = hello_world
     assert_html '<p {{view 42}}>Hello World from @env</p>', source
   end
 
+  def test_curly_attribute_with_nested_interpolation
+    source = %q{
+p({{view #{ "model#{1+2}" }}}) = hello_world
+}
+
+    assert_html '<p {{view model3}}>Hello World from @env</p>', source
+  end
+
   def test_curly_attribute_across_two_lines
     source = %q{
 p({{hello}}
