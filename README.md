@@ -67,6 +67,9 @@ Or install it yourself as (TODO):
 
     $ gem install slim-curly
 
+## Run tests
+    bundle exec rake test
+
 ## Contributing
 
 1. Fork it

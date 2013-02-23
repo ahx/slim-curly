@@ -2,7 +2,6 @@ module Slim::Curly
   class Parser < Slim::Parser
     OCURLY = '{{'
     CCURLY = '}}'
-    # CURLY_BLOCK_INDICATORS = ['#', '^']
 
     # Same as Slim::Parser::ATTR_DELIM_RE, but different.
     # This matches "{{{..." and "{...", but not "{{..."
@@ -10,12 +9,20 @@ module Slim::Curly
 
     def parse_line_indicators
       case @line
-      when /\A#{OCURLY}/
-        # TODO Handle blocks.
-        # Found a curly text node
-        @stacks.last << [:slim, :interpolate, @line]
-        @stacks.last << [:newline]
-        # TODO call syntax_error! if there is no closing }}
+      when /\A(#{OCURLY}(\S)*)/
+        if curly_block_indicator?($2)
+          # Found a curly block
+          block = [:multi]
+          @stacks.last << [:multi, @line, block]
+          @stacks << block
+          # TODO If the next line is not indented, there should be a closing {{/}}
+        else
+          # Found a curly text
+          @stacks.last << [:slim, :interpolate, @line]
+          @line.strip!
+          @stacks.last << [:newline]
+          # TODO call syntax_error! if there is no closing }}
+        end
       else
         super
       end
@@ -73,7 +80,7 @@ module Slim::Curly
           @line = $'
           # Prepend a space before the attribute.
           curly_attributes << [:static, ' ']
-          curly_attributes << parse_curly_value($1)
+          curly_attributes << parse_curly($1)
           #### END Code differrent from Slim::Parser
         else
           break unless delimiter
@@ -108,12 +115,17 @@ module Slim::Curly
 
     private
 
+    def curly_block_indicator?(indicator)
+      indicator =~ /\A[#^]]/
+    end
+
     # Parses text wrapped in curly ("{{....}}") and forwards right after the closing delimiter }}
-    def parse_curly_value(ocurly)
-      value = [:multi, [:static, ocurly]]
+    def parse_curly(curly_opener)
+      value = [:multi, [:static, curly_opener]]
 
       # Passing interpolation to [:slim, :interpolate, string]
       # FIXME Can Slim handle this?
+      # TODO Support escaped/unescaped interpolation #{}, #{{}}
       interpolate = nil
       unclosed = 0 # Number of unclosed interpolations
       while @line =~ /\A.*?\#{/
